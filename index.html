@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Timer</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <style>
+            span{border: solid 1px #ACACAC; padding: 2px;}
+        </style>
+        <script language="javascript">
+
+            var h = null; 
+            var m = null; 
+            var s = null; 
+            
+            var timeout = null; 
+
+            function pause() {
+            	document.getElementById('h').innerText = h.toString();
+    			document.getElementById('m').innerText = m.toString();
+    			document.getElementById('s').innerText = s.toString();
+    			clearTimeout(timeout);
+            }
+
+            function start() {
+    			if (h === null) {
+        			h = parseInt(document.getElementById('h_val').value);
+        			m = parseInt(document.getElementById('m_val').value);
+        			s = parseInt(document.getElementById('s_val').value);
+    			}
+ 
+    			if (s === -1) {
+        			m -= 1;
+        			s = 59;
+    			}
+ 
+    			if (m === -1) {
+        			h -= 1;
+        			m = 59;
+    			}
+ 
+    			if (h == -1) {
+        			clearTimeout(timeout);
+        			alert('Hết giờ');
+        		return false;
+    			}
+ 
+    			document.getElementById('h').innerText = h.toString();
+    			document.getElementById('m').innerText = m.toString();
+    			document.getElementById('s').innerText = s.toString();
+ 
+    			timeout = setTimeout(function() {
+        			s--;
+        			start();
+    			}, 1000);
+			}
+			if (reset() === false) {
+				timeout = 0;
+				clearTimeout(timeout);
+			}
+        </script>
+    </head>
+    <body>
+        <div>
+            <strong>
+                Input: <br/>
+            </strong>
+            <input type="text" id="h_val" placeholder="Hour" value=""/> <br/>
+            <input type="text" id="m_val" placeholder="Minute" value=""/> <br/>
+            <input type="text" id="s_val" placeholder="Second" value=""/>
+            <input type="button" value="Start" onclick="start()"/>
+            <input type="button" value="Pause" onclick="pause()"/> <br/> <br/>
+        </div>
+        
+        <div>
+            <span id="h">Hour</span> :
+            <span id="m">Minute</span> :
+            <span id="s">Second</span>
+        </div>
+    </body>
+</html>
